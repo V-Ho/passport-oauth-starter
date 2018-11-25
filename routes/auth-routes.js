@@ -1,21 +1,52 @@
-// create instance of router to be made available in app
-const router = require('express').Router()
+// // create instance of router to be made available in app
+// const router = require('express').Router()
+// const passport = require('passport')
+
+// // auth login
+// router.get('/login', (req, res) => {
+//   res.render('login')
+// })
+
+// // auth logout
+// router.get('/logout', (req, res) => {
+//   // handle with passport
+//   res.send('logging out')
+// })
+
+// // auth with google & passport
+// // passport authenticates google strategy
+// router.get('/google', passport.authenticate('google', {
+//   scope: ['profile']
+// }))
+
+// // callback route for google to redirect to
+// router.get('/google/redirect', (req, res) => {
+//   res.send('you reached the redirect URI')
+// })
+
+// module.exports = router
+const router = require('express').Router();
+const passport = require('passport');
 
 // auth login
 router.get('/login', (req, res) => {
-  res.render('login')
-})
+    res.render('login', { user: req.user });
+});
 
 // auth logout
 router.get('/logout', (req, res) => {
-  // handle with passport
-  res.send('logging out')
-})
+    // handle with passport
+    res.send('logging out');
+});
 
-// auth with google & passport
-router.get('/google', (req, res) => {
-  // handle with passport
-  res.send('logging in with google auth')
-})
+// auth with google+
+router.get('/google', passport.authenticate('google', {
+    scope: ['profile']
+}));
 
-module.exports = router
+// callback route for google to redirect to
+router.get('/google/redirect', (req, res) => {
+    res.send('you reached the redirect URI');
+});
+
+module.exports = router;
