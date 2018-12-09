@@ -18,10 +18,11 @@ router.get('/google', passport.authenticate('google', {
   scope: ['profile']
 }))
 
-// callback route for google to redirect to, contains authentication code
 // router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-//   res.send('you reached the redirect URI')
-// })
+//   res.send(req.user);
+// });
+
+// callback route for google to redirect to, contains authentication code
 router.get('/google/redirect', passport.authenticate('google'),
   (err, req, res, next) => {
     if (err.name === 'TokenError') {
@@ -30,9 +31,19 @@ router.get('/google/redirect', passport.authenticate('google'),
     } else {
       console.log('some error')
     }
+    next()
   },
   (req, res) => {
-    res.send('you reached the redirect URI')
+    // res.send(req.user)
+    /*
+    {
+      "_id": "5c0860f288b423244b43b59d",
+      "username": "Vanessa Ho",
+      "googleId": "117337140037965731053",
+      "__v": 0
+      }
+  */
+    res.redirect('/profile/')
   }
 )
 module.exports = router
