@@ -22,6 +22,7 @@ passport.use(
     clientID: keys.google.clientID,
     clientSecret: keys.google.clientSecret
   }, (accessToken, refreshToken, profile, done) => {
+    console.log(profile)
     // passport cb function
     console.log('passport cb function fired')
 
@@ -34,7 +35,9 @@ passport.use(
         // save user's google profile id
         new User({
           username: profile.displayName,
-          googleId: profile.id
+          googleId: profile.id,
+          thumbnail: profile._json.image.url,
+          gender: profile.gender
         }).save().then((newUser) => {
           console.log(`New User: ${newUser}`)
           done(null, newUser)
