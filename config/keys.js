@@ -7,5 +7,8 @@ module.exports = {
   },
   mongodb: {
     dbURI: 'mongodb://vho:Password123@ds125574.mlab.com:25574/practise-oauth'
+  },
+  session: {
+    cookieKey: 'vhoencryptedcookiekey'
   }
 }

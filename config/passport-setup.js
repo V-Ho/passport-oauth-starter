@@ -3,12 +3,12 @@ const GoogleStrategy = require('passport-google-oauth20')
 const keys = require('./keys')
 const User = require('../models/user-model')
 
-// stores user info into a cookie
+// stores user info into encrypted cookie
 passport.serializeUser((user, done) => {
   done(null, user.id)
 })
 
-// cookie gets passed back to browser
+// cookie gets passed back to browser, decrypt to find user
 passport.deserializeUser((id, done) => {
   User.findById(id).then((user) => {
     done(null, user)
