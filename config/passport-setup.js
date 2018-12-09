@@ -12,13 +12,22 @@ passport.use(
   }, (accessToken, refreshToken, profile, done) => {
     // passport cb function
     console.log('passport cb function fired')
-    console.log(profile)
-    // save user's google profile id
-    new User({
-      username: profile.displayName,
-      googleId: profile.id
-    }).save().then((newUser) => {
-      console.log(`New User: ${newUser}`)
+
+    // check if user already exists
+    User.findOne({googleId: profile.id}).then((currentUser) => {
+      if (currentUser) {
+        console.log(`current user is: ${currentUser}`)
+        done(null, currentUser)
+      } else {
+        // save user's google profile id
+        new User({
+          username: profile.displayName,
+          googleId: profile.id
+        }).save().then((newUser) => {
+          console.log(`New User: ${newUser}`)
+          done(null, newUser)
+        })
+      }
     })
     // done()
   })
